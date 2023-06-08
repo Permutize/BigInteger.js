@@ -1,6 +1,8 @@
 var bigInt = (function (undefined) {
     "use strict";
 
+    const BN = require('bn.js');
+
     var BASE = 1e7,
         LOG_BASE = 7,
         MAX_INT = 9007199254740992,
@@ -1353,6 +1355,14 @@ var bigInt = (function (undefined) {
     }
 
     function parseStringValue(v) {
+        if(v && v.startsWith('0x')) {
+            const newV = v.replace('0x', '');
+            console.log('check1', newV)
+            const temp = new BN(newV, 16);
+            console.log('check2', temp.toString(10, 0))
+            v = temp.toString(10, 0)
+        }
+
         if (isPrecise(+v)) {
             var x = +v;
             if (x === truncate(x))
